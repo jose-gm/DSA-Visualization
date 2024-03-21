@@ -34,7 +34,7 @@ fun ActionRow(
     containerColor: Color = ActionDefaults.containerColor,
     contentColor: Color = ActionDefaults.contentColor,
     edgePadding: Dp = ActionDefaults.edgePadding,
-    contentPadding: Dp = ActionDefaults.contentPadding,
+    horizontalPadding: Dp = ActionDefaults.contentPadding,
     actionItems: @Composable ActionRowScope.() -> Unit
 ) {
     Surface(
@@ -47,13 +47,13 @@ fun ActionRow(
             modifier = Modifier.fillMaxWidth()
         ) { measurables, constraints ->
             val edgePaddingPx = edgePadding.roundToPx()
-            val contentPaddingPx = contentPadding.roundToPx()
+            val horizontalPaddingPx = horizontalPadding.roundToPx()
             val actionRowWidth = constraints.maxWidth
             val actionItemCount = measurables.size
             val actionItemWidth = if (measurables.isNotEmpty()) {
                 var actionItemWidthTemp = actionRowWidth / actionItemCount
                 actionItemWidthTemp -= (edgePaddingPx * 2) / actionItemCount
-                actionItemWidthTemp -= (contentPaddingPx * (actionItemCount - 1)) / actionItemCount
+                actionItemWidthTemp -= (horizontalPaddingPx * (actionItemCount - 1)) / actionItemCount
                 actionItemWidthTemp
             } else { 0 }
             val actionRowHeight = measurables.fastFold(0) { max, measurable ->
@@ -73,7 +73,7 @@ fun ActionRow(
                 var offsetX = edgePaddingPx
                 actionItemPlaceables.fastForEach {
                     it.place(offsetX, 0)
-                    offsetX += it.width + contentPaddingPx - 1
+                    offsetX += it.width + horizontalPaddingPx - 1
                 }
             }
         }
@@ -194,18 +194,16 @@ private class ActionItemScrollStateData(
         selectedActionItem: Int,
         actionItemPositions: List<ActionItemPosition>,
         density: Density
-    ): Int {
-        with(density) {
-            val actionRowTotalWidth = actionItemPositions.last().right.roundToPx()
-            val actionRowVisibleWidth = actionRowTotalWidth - scrollState.maxValue
-            val scrollCenterVisibleWidth = actionRowVisibleWidth / 2
-            val actionItemOffset = actionItemPositions[selectedActionItem].left.roundToPx()
-            val actionItemWidth = actionItemPositions[selectedActionItem].width.roundToPx()
-            val actionItemCenterScrollOffset = actionItemOffset - (scrollCenterVisibleWidth - (actionItemWidth/2))
-            val availableSpace = (actionRowTotalWidth - actionRowVisibleWidth).coerceAtLeast(0)
+    ): Int = with(density) {
+        val actionRowTotalWidth = actionItemPositions.last().right.roundToPx()
+        val actionRowVisibleWidth = actionRowTotalWidth - scrollState.maxValue
+        val scrollCenterVisibleWidth = actionRowVisibleWidth / 2
+        val actionItemOffset = actionItemPositions[selectedActionItem].left.roundToPx()
+        val actionItemWidth = actionItemPositions[selectedActionItem].width.roundToPx()
+        val actionItemCenterScrollOffset = actionItemOffset - (scrollCenterVisibleWidth - (actionItemWidth/2))
+        val availableSpace = (actionRowTotalWidth - actionRowVisibleWidth).coerceAtLeast(0)
 
-            return actionItemCenterScrollOffset.coerceIn(0, availableSpace)
-        }
+        return actionItemCenterScrollOffset.coerceIn(0, availableSpace)
     }
 }
 

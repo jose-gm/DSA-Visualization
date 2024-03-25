@@ -6,10 +6,10 @@ plugins {
 android {
     signingConfigs {
         create("release") {
-            storeFile = file("C:\\Users\\josem\\AndroidStudioProjects\\key store\\signing-key.jks")
-            storePassword = "Naruhodo26"
-            keyAlias = "Prod Testing"
-            keyPassword = "Naruhodo26"
+            storeFile = file(System.getenv("StoreFile"))
+            storePassword = System.getenv("StorePassword")
+            keyAlias = System.getenv("KeyAlias")
+            keyPassword = System.getenv("StorePassword")
         }
     }
     namespace = "com.joseg.dsavisualization"

@@ -25,16 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
-/*
- * For more information on BlendMode visit: https://developer.android.com/reference/android/graphics/BlendMode
- *
- * For a more thorough explanation on why do we need to add an extra canvas layer for Compose to properly
- * apply the BlendMode in the graphic layer and other alternatives to accomplish the same behavior see:
- * - https://stackoverflow.com/questions/74723358/jetpack-compose-canvas-drawtext-color-blending
- * - https://stackoverflow.com/questions/65653560/jetpack-compose-applying-porterduffmode-to-image
- * */
-
-
 @Composable
 fun ActionRowScope.ActionItem(
     label: @Composable () -> Unit,
@@ -92,15 +82,6 @@ fun ActionRowScope.ActionItem(
     }
 }
 
-// Creates a canvas layer inside of a ContentDrawScope
-//private fun ContentDrawScope.drawWithLayer(block: ContentDrawScope.() -> Unit) {
-//    with(drawContext.canvas.nativeCanvas) {
-//        val checkPoint = saveLayer(null, null)
-//        block()
-//        restoreToCount(checkPoint)
-//    }
-//}
-
 object ActionItemDefaults {
     val selectedLabelColor: Color
         @Composable get() = MaterialTheme.colorScheme.onSecondaryContainer
@@ -110,7 +91,5 @@ object ActionItemDefaults {
         @Composable get() = MaterialTheme.colorScheme.secondaryContainer
 }
 
-private val height = 40.dp
 private const val actionItemAlphaAnimationDuration = 110
 private const val actionItemAlphaAnimationDelay = 50
-private val borderThickness = 0.2.dp

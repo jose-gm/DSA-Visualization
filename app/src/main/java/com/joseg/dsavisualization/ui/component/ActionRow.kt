@@ -56,7 +56,7 @@ fun ActionRow(
                 actionItemWidthTemp -= (horizontalPaddingPx * (actionItemCount - 1)) / actionItemCount
                 actionItemWidthTemp
             } else { 0 }
-            val actionRowHeight = measurables.fastFold(0) { max, measurable ->
+            val actionRowHeight = measurables.fastFold(actionItemMinimumHeight.roundToPx()) { max, measurable ->
                 maxOf(max, measurable.maxIntrinsicHeight(actionItemWidth))
             }
 
@@ -223,3 +223,4 @@ interface ActionRowScope
 object ActionRowScopeImplementation : ActionRowScope
 
 private val actionItemMinimumWidth = 80.dp
+private val actionItemMinimumHeight = 45.dp
